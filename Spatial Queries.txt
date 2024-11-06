@@ -1,0 +1,136 @@
+Spatial Queries  (Also did bonus marks covid-19 query)
+a) ST_Intersects
+
+
+SELECT * 
+FROM public.ne_10m_land 
+WHERE ST_Intersects(
+    ST_Transform(geom, 4326), 
+    ST_GeomFromText('POLYGON((-100 40, -105 45, -110 42, -100 40))', 4326)
+);
+
+
+
+b) ST_DWithin
+
+SELECT * 
+FROM public.ne_10m_land 
+WHERE ST_DWithin(
+    geom, 
+    ST_GeomFromText('POINT(-123.365644 48.428421)', 4326),  
+    10000  
+);
+
+
+
+c) ST_Crosses
+
+SELECT * 
+FROM public.ne_10m_land 
+WHERE ST_Crosses(
+    geom, 
+    ST_GeomFromText('LINESTRING(-123.365644 48.428421, -122.365644 47.428421)', 4326)  
+);
+
+
+d) ST_Touches
+
+SELECT *
+FROM public.ne_10m_land
+WHERE ST_Touches(geom, ST_GeomFromText('POLYGON((-120 40, -105 45, -110 42, -120 40))', 4326)); 
+
+
+e)  Select All Features from ne_10m_land
+
+SELECT *
+FROM ne_10m_land;
+
+f) Count the Number of Features
+ 
+SELECT COUNT(*) AS total_count
+FROM ne_10m_land;
+
+g) Get Geometry Type and SRID
+ 
+SELECT
+    ST_GeometryType(geom) AS geometry_type,
+    ST_SRID(geom) AS srid
+FROM ne_10m_land
+LIMIT 1;
+
+h) Calculate Total Area by featurecla
+
+SELECT featurecla, SUM(ST_Area(geom)) AS total_area
+FROM ne_10m_land
+GROUP BY featurecla;
+
+i) Find Features Intersecting with Another Layer
+
+SELECT n.*, h.*
+FROM ne_10m_land AS n
+JOIN hawaii_counties AS h
+ON ST_Intersects(n.geom, h.geom);
+
+j) Find Areas of Each Polygon
+
+SELECT
+    featurecla,           
+    ST_Area(geom) AS area
+FROM ne_10m_land;
+
+k) Get Coordinates of a Specific Feature
+
+SELECT featurecla, 
+    ST_AsText(geom) AS geometry
+FROM ne_10m_land
+WHERE featurecla = 'Land'; 
+
+l) Find Distance Between Two Points
+
+SELECT
+    ST_Distance(
+        ST_GeomFromText('SRID=4326;POINT(-157.8583 21.3069)'),
+        ST_GeomFromText('SRID=4326;POINT(-157.8477 21.3037)')
+    ) AS distance;
+ 
+
+
+COVID - 19 QUERY
+
+1)ST_Intersects – Find features that intersect a specific polygon:
+ 
+SELECT *
+FROM public."COVID19_VaccinationStations"
+WHERE ST_Intersects(
+    geom, 
+    ST_GeomFromText('POLYGON((120.1 -26, 129.1 -24.9, 130.5 -20.5, 125.5 -22.5, 120.1 -26))', 4326)
+);
+
+2)ST_DWithin – Find vaccination stations within a 10 km buffer of a specific point:
+
+SELECT *
+FROM public."COVID19_VaccinationStations"
+WHERE ST_DWithin(
+    geom, 
+    ST_GeomFromText('POINT(144.9631 -37.8136)', 4326), 
+    10000  -- 10,000 meters = 10 km
+);
+
+3) ST_Crosses – Find stations crossed by a line:
+
+SELECT *
+FROM public."COVID19_VaccinationStations"
+WHERE ST_Crosses(
+    geom, 
+    ST_GeomFromText('LINESTRING(144.9631 -37.8136, 145.1300 -37.9500)', 4326)
+);
+
+4)  ST_Touches – Find stations touching the boundary of a polygon:
+
+SELECT *
+FROM public."COVID19_VaccinationStations"
+WHERE ST_Touches(
+    geom, 
+    ST_GeomFromText('POLYGON((144.5 -38, 145.5 -38, 145.5 -37, 144.5 -37, 144.5 -38))', 4326)
+);
+
