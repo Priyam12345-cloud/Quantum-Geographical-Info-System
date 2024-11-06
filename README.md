@@ -8,3 +8,9 @@ This project, **Quantum-Geographical-Info-System**, is an assignment developed t
 - **ER Diagrams**: Visual representation of database relationships and structures.
 - **SQL Scripts**: Scripts for database creation, updating, and management.
 - **Query Results**: Sample query outputs and analysis of geographic data processing.
+
+![Screenshot 2024-10-15 022725](images/Screenshot%202024-10-15%20022725.png)
+
+![Screenshot 2024-10-16 105651](images/Screenshot%202024-10-16%20105651.png)
+
+![Screenshot 2024-10-18 164340](images/Screenshot%202024-10-18%20164340.png)
