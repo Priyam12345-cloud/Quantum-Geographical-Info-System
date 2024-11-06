@@ -13,4 +13,4 @@ This project, **Quantum-Geographical-Info-System**, is an assignment developed t
 
 ![Screenshot 2024-10-16 105651](images/Screenshot%202024-10-16%20105651.png)
 
-![Screenshot 2024-10-18 164340](images/Screenshot%202024-10-18%20164340.png)
+
